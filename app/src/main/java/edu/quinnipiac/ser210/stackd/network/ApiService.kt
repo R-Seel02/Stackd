@@ -1,5 +1,6 @@
 package edu.quinnipiac.ser210.stackd.network
 
+import com.google.firebase.firestore.auth.User
 import edu.quinnipiac.ser210.stackd.model.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
