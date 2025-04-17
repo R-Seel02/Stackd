@@ -2,7 +2,9 @@ package edu.quinnipiac.ser210.stackd.network
 
 import android.annotation.SuppressLint
 import com.google.firebase.firestore.auth.User
+import edu.quinnipiac.ser210.stackd.api.Exercise
 
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -18,8 +20,8 @@ interface ApiService {
 
 
     @SuppressLint("RestrictedApi")
-    @GET("users/{id}")
-    suspend fun getUser(@Path("id") id: Int): User
+    @GET("exercises")
+    suspend fun getExercise(): Response<ArrayList<Exercise>>
 
     companion object {
 
