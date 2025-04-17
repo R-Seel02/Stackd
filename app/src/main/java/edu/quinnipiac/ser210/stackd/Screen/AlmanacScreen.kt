@@ -4,6 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SplitScreen() {
+fun AlmanacScreen() {
     Text(text = "Welcome to Split Screen")
 }

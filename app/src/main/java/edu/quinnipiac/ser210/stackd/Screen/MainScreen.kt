@@ -96,4 +96,3 @@ fun HeroRow(hero: Hero,itemClick: (String)-> Unit = {} ) {
 
 
 }
-//print("Hi Ryan seely")
