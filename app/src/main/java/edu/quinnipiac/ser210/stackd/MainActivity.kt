@@ -34,41 +34,22 @@ fun MainScreen(navController: NavController, modifier: Modifier) {
         }
     }
 }
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        setContent {
-//            StackdTheme {
-//                val navController = rememberNavController()
-//                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-//                    // Replace AppNavigation with the correct function or define it
-//                    MainScreen(navController = navController, modifier = Modifier.padding(paddingValues))
-//                }
-//        }
-//    }
-//}
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//
-//        enableEdgeToEdge()
-//
-//        val stackdViewModel: StackdViewModel by viewModels()
-//        setContent {
-//            StackdTheme {
-//                val navController = rememberNavController()
-//                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-//                    MainScreen(
-//                        navController = navController,
-//                        stackdViewModel = stackdViewModel
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            StackdTheme {
+                val navController = rememberNavController()
+                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
+                    // Replace AppNavigation with the correct function or define it
+                    MainScreen(navController = navController, modifier = Modifier.padding(paddingValues))
+                }
+        }
+    }
+        }
+}
+
 
 
 //    @Composable
@@ -81,7 +62,7 @@ fun MainScreen(navController: NavController, modifier: Modifier) {
 //            )
 //        }
 //    }}
-
+//
 //@Preview(showBackground = true)
 //@Composable
 //fun GreetingPreview() {

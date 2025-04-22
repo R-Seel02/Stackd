@@ -11,14 +11,14 @@ import edu.quinnipiac.ser210.stackd.network.ApiService
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class StackdViewModel : ViewModel() {
+class stackdViewModel : ViewModel() {
 
-    private val stackdApi = ApiService.create()
 
-    class StackdViewModel : ViewModel(){
+
         private val stackdApi = ApiInterface.create()
-        val _excerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
-        val _exerciseResult : LiveData<Response<ArrayList<Exercise>>> = _excerciseResult
+          val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
+       val exerciseResult : LiveData<Response<ArrayList<Exercise>>> = _exerciseResult
+
 
 
 
@@ -30,7 +30,7 @@ class StackdViewModel : ViewModel() {
                 val response = stackdApi.getExercise()
                 if (response.isSuccessful) {
                     Log.d("API response: ", response.body().toString())
-                    _excerciseResult.value = response
+                    _exerciseResult.value = response
                 } else {
                     Log.d("network error", "Failed to load data")
                 }
@@ -44,4 +44,3 @@ class StackdViewModel : ViewModel() {
     }
 
 
-}

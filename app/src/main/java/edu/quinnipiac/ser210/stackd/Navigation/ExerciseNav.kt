@@ -1,7 +1,6 @@
 package edu.quinnipiac.ser210.stackd.Navigation
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -12,17 +11,17 @@ import edu.quinnipiac.ser210.stackd.Screen.AlmanacScreen
 import edu.quinnipiac.ser210.stackd.Screen.MainScreen
 import edu.quinnipiac.ser210.stackd.Screen.SettingScreen
 import edu.quinnipiac.ser210.stackd.Screen.SplitScreen
-import edu.quinnipiac.ser210.stackd.model.StackdViewModel
+import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-    val stackdViewModel: StackdViewModel = viewModel()
+    val stackdViewModel: stackdViewModel = viewModel()
     NavHost(
         navController = navController,
-        startDestination = AppScreens.Mainscreen.name
+        startDestination = AppScreens.MainScreen.name
     ) {
-        composable(AppScreens.Mainscreen.name) {
+        composable(AppScreens.MainScreen.name) {
             MainScreen(
                 navController = navController,
                 modifier = Modifier.padding(),
@@ -30,7 +29,11 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable(AppScreens.SettingScreen.name) {
-            SettingScreen()
+            SettingScreen(
+                navController = navController,
+                modifier = Modifier.padding(),
+                stackdViewModel = stackdViewModel
+            )
         }
         composable(AppScreens.AlmanacScreen.name) {
             AlmanacScreen()
