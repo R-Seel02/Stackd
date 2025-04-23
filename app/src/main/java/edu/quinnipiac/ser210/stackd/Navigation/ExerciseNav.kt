@@ -36,7 +36,9 @@ fun AppNavigation(navController: NavHostController) {
             )
         }
         composable(AppScreens.AlmanacScreen.name) {
-            AlmanacScreen()
+            AlmanacScreen( navController = navController,
+                modifier = Modifier.padding(),
+                stackdViewModel = stackdViewModel)
         }
         composable(AppScreens.SplitScreen.name) {
             SplitScreen()

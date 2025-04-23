@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.quinnipiac.ser210.stackd.Navigation.AppScreens
 import edu.quinnipiac.ser210.stackd.R
@@ -64,7 +66,7 @@ fun MainScreen(
         TopAppBar(
           title = {
             Text(
-              text = "Stack'd",
+              text = "",
               fontStyle = FontStyle.Normal
             )
           },
@@ -76,6 +78,7 @@ fun MainScreen(
                 modifier = Modifier
                   .size(100.dp)
                   .align(Alignment.CenterVertically)
+                  .offset(x=-190.dp, y = 0.dp)
               )
             }
             IconButton(onClick = {
@@ -102,9 +105,12 @@ fun MainScreen(
       Column(modifier = Modifier.padding(innerPadding)) {
         Text(
           text = "Welcome to the Main Screen!",
-          color = Color.White
+          color = Color.White,
+          fontSize = 30.sp,
+          modifier = modifier.offset(x = 20.dp,y=20.dp)
+
         )
-        // Add more content...
+
       }
     }
   }
