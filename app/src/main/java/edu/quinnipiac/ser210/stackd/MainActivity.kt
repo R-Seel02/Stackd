@@ -23,20 +23,7 @@ import edu.quinnipiac.ser210.stackd.ui.theme.StackdTheme
 
 
 
-//@Composable
-//fun MainScreenNavigation (navController: NavController) {
-//    Column(modifier = Modifier.padding(16.dp)) {
-//        Button(onClick = { navController.navigate(AppScreens.SettingScreen.name) }) {
-//            Text(text = "Go to Setting Screen")
-//        }
-//        Button(onClick = { navController.navigate(AppScreens.AlmanacScreen.name) }) {
-//            Text(text = "Go to Almanac Screen")
-//        }
-//        Button(onClick = { navController.navigate(AppScreens.SplitScreen.name) }) {
-//            Text(text = "Go to Split Screen")
-//        }
-//    }
-//}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
