@@ -19,7 +19,7 @@ fun SettingScreen(
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StackdAppBar(){
+fun StackdAppBar(modifier: Modifier){
     TopAppBar(
         title = {Text("Stackd")}
     )
