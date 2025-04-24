@@ -47,8 +47,8 @@ fun ExerciseDropdownMenu(exercises: List<Exercise>) {
 
     selectedItem?.let {
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            Text("Targets: ${it.target.joinToString()}", color = Color.Black)
-            Text("Type: ${it.type.joinToString()}", color = Color.Black)
+            Text("Targets: ${it.target}", color = Color.Black)
+            Text("Type: ${it.type}", color = Color.Black)
             // Add more if needed
         }
     }
@@ -57,7 +57,7 @@ fun ExerciseDropdownMenu(exercises: List<Exercise>) {
 fun groupExercisesByBodyPart(exercises: List<Exercise>): Map<String, List<Exercise>> {
     return exercises
         .flatMap { exercise -> exercise.bodyPart.map { it to exercise } }
-        .groupBy({ it.first }, { it.second })
+        .groupBy({ it.first.toString() }, { it.second })
 }
 
 @Composable

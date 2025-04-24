@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.quinnipiac.ser210.stackd.api.ApiInterface
 import edu.quinnipiac.ser210.stackd.api.Exercise
 import edu.quinnipiac.ser210.stackd.network.ApiService
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ class stackdViewModel : ViewModel() {
 
 
 
-        private val stackdApi = ApiInterface.create()
+        private val stackdApi = ApiService.create()
           val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
     val exerciseResult: LiveData<Response<ArrayList<Exercise>>> get() = _exerciseResult
 
@@ -23,20 +22,21 @@ class stackdViewModel : ViewModel() {
 
 
     fun getData() {
-
+        Log.d("DEBUG", "getData() called")
         viewModelScope.launch {
             try {
 
                 val response = stackdApi.getExercise()
+                Log.d("DEBUG", "API response received")
                 if (response.isSuccessful) {
-                    Log.d("API response: ", response.body().toString())
+                    Log.d("DEBUG", "API success: ${response.body()}")
                     _exerciseResult.value = response
                 } else {
-                    Log.d("network error", "Failed to load data")
+                    Log.e("DEBUG", "API error code: ${response.code()}, error body: ${response.errorBody()?.string()}")
                 }
             }
             catch (e: Exception){
-                e.message?.let { Log.d("network error", it) }
+                Log.e("DEBUG", "Exception during API call: ${e.message}")
             }
             }
 
