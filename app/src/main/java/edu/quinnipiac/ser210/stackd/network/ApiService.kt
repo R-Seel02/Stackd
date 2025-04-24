@@ -7,17 +7,25 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface ApiService {
 
     @GET("exercises")
 
     suspend fun getExercise(): Response<ArrayList<Exercise>>
+    @GET("exercises/bodyPart/{bodyPart}")
+    suspend fun getExercisesByBodyPart(
+        @Path("bodyPart") bodyPart: String
+    ): Response<ArrayList<Exercise>>
+
 
     companion object {
         private const val BASE_URL = "https://exercisedb.p.rapidapi.com/"
         private const val API_KEY = "7f584a90a1mshf02cb77037613e9p17a9e2jsnf0b196a8e07e" // ✅ Replace this with your actual key
         private const val API_HOST = "exercisedb.p.rapidapi.com"
+
+
 
         fun create(): ApiService {
             val client = OkHttpClient.Builder()
@@ -29,6 +37,7 @@ interface ApiService {
                     chain.proceed(request)
                 })
                 .build()
+
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)

@@ -1,6 +1,7 @@
 package edu.quinnipiac.ser210.stackd.Screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +16,10 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,6 +28,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,27 +48,31 @@ import edu.quinnipiac.ser210.stackd.api.Exercise
 import edu.quinnipiac.ser210.stackd.api.ExerciseDropdownMenu
 import edu.quinnipiac.ser210.stackd.api.groupExercisesByBodyPart
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+
 fun AlmanacScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     stackdViewModel: stackdViewModel
 ) {
+    val filtered = stackdViewModel.filteredExercises.observeAsState(emptyList())
+    var dropdownExpanded by remember { mutableStateOf(false) }
+    var selectedExercise by remember { mutableStateOf<Exercise?>(null) }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
-
         Image(
             painter = painterResource(id = R.drawable.backgroundmain),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-
 
         Scaffold(
             topBar = {
@@ -80,22 +91,16 @@ fun AlmanacScreen(
                                 modifier = Modifier
                                     .size(100.dp)
                                     .align(Alignment.CenterVertically)
-                                    .offset(x=-190.dp, y = 0.dp)
+                                    .offset(x = -190.dp)
                             )
                         }
-                        IconButton(onClick = {
-                            navController.navigate(AppScreens.SettingScreen.name)
-                        }) {
+                        IconButton(onClick = { navController.navigate(AppScreens.SettingScreen.name) }) {
                             Icon(Icons.Default.Settings, contentDescription = "Settings")
                         }
-                        IconButton(onClick = {
-                            navController.navigate(AppScreens.MainScreen.name)
-                        }) {
+                        IconButton(onClick = { navController.navigate(AppScreens.MainScreen.name) }) {
                             Icon(Icons.Default.Home, contentDescription = "Home")
                         }
-                        IconButton(onClick = {
-                            navController.navigate(AppScreens.SplitScreen.name)
-                        }) {
+                        IconButton(onClick = { navController.navigate(AppScreens.SplitScreen.name) }) {
                             Icon(Icons.Filled.DateRange, contentDescription = "Split Plan")
                         }
                     }
@@ -104,33 +109,84 @@ fun AlmanacScreen(
             containerColor = Color.Transparent,
             modifier = modifier
         ) { innerPadding ->
-            val response = stackdViewModel.exerciseResult.value
-            val exercises = response?.body() ?: emptyList()
 
-            LaunchedEffect(Unit) {
-                stackdViewModel.getData()
-            }
-
-            Column(modifier = Modifier.padding(innerPadding)) {
-
+            Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
                 Text(
                     text = "Welcome to the Almanac Screen",
                     fontFamily = FontFamily.SansSerif,
                     color = Color.Black,
                     fontSize = 25.sp,
-                    modifier = modifier.offset(x = 25.dp,y=20.dp)
-
+                    modifier = Modifier.offset(x = 10.dp, y = 10.dp)
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // ✅ Buttons to load exercises by body part
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = {
+                        stackdViewModel.getExercisesForPart("back")
+                        dropdownExpanded = true
+                    }) {
+                        Text("Back")
+                    }
+
+                    Button(onClick = {
+                        stackdViewModel.getExercisesForPart("chest")
+                        dropdownExpanded = true
+                    }) {
+                        Text("Chest")
+                    }
+
+                    Button(onClick = {
+                        stackdViewModel.getExercisesForPart("upper legs")
+                        dropdownExpanded = true
+                    }) {
+                        Text("Legs")
+                    }
+                    Button(onClick = {
+                        stackdViewModel.getExercisesForPart("lower legs")
+                        dropdownExpanded = true
+                    }) {
+                        Text("Lower Legs")
+                    }
+                    Button(onClick = {
+                        stackdViewModel.getExercisesForPart("shoulders")
+                        dropdownExpanded = true
+                    }) {
+                        Text("Shoulders")
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
 
 
-                val exercisesResponse = stackdViewModel.exerciseResult.value
-                val exercises = exercisesResponse?.body() ?: emptyList()
-                if (exercises.isNotEmpty()) {
-                    ExerciseDropdownMenu(exercises = exercises)
-                } else {
-                    CircularProgressIndicator(modifier = Modifier.padding(24.dp))
+                Box {
+                    Button(onClick = { dropdownExpanded = true }) {
+                        Text(selectedExercise?.name ?: "Select Exercise")
+                    }
+
+                    DropdownMenu(
+                        expanded = dropdownExpanded,
+                        onDismissRequest = { dropdownExpanded = false }
+                    ) {
+                        filtered.value.forEach { exercise ->
+                            DropdownMenuItem(
+                                text = { Text(exercise.name) },
+                                onClick = {
+                                    selectedExercise = exercise
+                                    dropdownExpanded = false
+                                }
+                            )
+                        }
+                    }
+                }
+
+                selectedExercise?.let { exercise ->
+                    Column {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text("Target: ${exercise.target ?: "Unknown"}", color = Color.Black)
+                        Text("Equipment: ${exercise.equipment ?: "Unknown"}", color = Color.Black)
+                    }
                 }
 
 
@@ -138,3 +194,6 @@ fun AlmanacScreen(
         }
     }
 }
+
+
+
