@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
@@ -50,6 +52,12 @@ import edu.quinnipiac.ser210.stackd.api.groupExercisesByBodyPart
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.ImageLoader
+import androidx.compose.ui.platform.LocalContext
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -121,7 +129,7 @@ fun AlmanacScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // ✅ Buttons to load exercises by body part
+
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = {
                         stackdViewModel.getExercisesForPart("back")
@@ -137,27 +145,39 @@ fun AlmanacScreen(
                         Text("Chest")
                     }
 
+
                     Button(onClick = {
                         stackdViewModel.getExercisesForPart("upper legs")
                         dropdownExpanded = true
                     }) {
                         Text("Legs")
                     }
+
+
+
+                }
+                Row(modifier = Modifier) {
                     Button(onClick = {
                         stackdViewModel.getExercisesForPart("lower legs")
                         dropdownExpanded = true
+                        modifier
+                            .offset(x=0.dp,y=2000.dp)
                     }) {
                         Text("Lower Legs")
                     }
+
                     Button(onClick = {
                         stackdViewModel.getExercisesForPart("shoulders")
                         dropdownExpanded = true
+                        modifier
+                            .offset(x=0.dp,y=2000.dp)
                     }) {
                         Text("Shoulders")
                     }
+
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
 
                 Box {
@@ -180,20 +200,46 @@ fun AlmanacScreen(
                         }
                     }
                 }
+                val context = LocalContext.current
+                val imageLoader = ImageLoader.Builder(context)
+                    .components {
+                        add(GifDecoder.Factory())
+                    }
+                    .build()
 
                 selectedExercise?.let { exercise ->
-                    Column {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text("Target: ${exercise.target ?: "Unknown"}", color = Color.Black)
-                        Text("Equipment: ${exercise.equipment ?: "Unknown"}", color = Color.Black)
-                    }
-                }
+                   Column {
+
+                       Spacer(modifier = Modifier.height(16.dp))
+                       Text("Target: ${exercise.target ?: "Unknown"}", color = Color.Black)
+                       Text("Equipment: ${exercise.equipment ?: "Unknown"}", color = Color.Black)
+
+
+                       Spacer(modifier = Modifier.height(8.dp))
+
+
+                       exercise.gifUrl?.let { gif ->
+                           AsyncImage(
+                               model = gif,
+                               contentDescription = "${exercise.name} animation",
+                               imageLoader = imageLoader,
+                               modifier = Modifier
+                                   .height(250.dp)
+                                   .fillMaxWidth()
+                                   .padding(vertical = 8.dp),
+                               contentScale = ContentScale.Fit
+                           )
+
+                   }
 
 
             }
         }
     }
+        }
+    }
 }
+
 
 
 

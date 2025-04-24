@@ -6,5 +6,7 @@ data class Exercise( val id: Int,
                      val targetList: String,
                      val equipment: String?,
                      val bodyPart: String,
-                     val target: String)
+                     val target: String,
+                     val gifUrl: String?
+    )
 
