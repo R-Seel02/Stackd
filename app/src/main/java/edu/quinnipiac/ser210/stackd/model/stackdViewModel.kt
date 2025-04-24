@@ -17,7 +17,7 @@ class stackdViewModel : ViewModel() {
 
         private val stackdApi = ApiInterface.create()
           val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
-       val exerciseResult : LiveData<Response<ArrayList<Exercise>>> = _exerciseResult
+    val exerciseResult: LiveData<Response<ArrayList<Exercise>>> get() = _exerciseResult
 
 
 

@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface ApiInterface {
-    @GET("marvel/")
+    @GET("Exercise/")
     suspend fun getExercise() : Response<ArrayList<Exercise>>
 
 
