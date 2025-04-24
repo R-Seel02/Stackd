@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -79,9 +81,9 @@ fun AlmanacScreen(
                             Icon(Icons.Default.Settings, contentDescription = "Settings")
                         }
                         IconButton(onClick = {
-                            navController.navigate(AppScreens.AlmanacScreen.name)
+                            navController.navigate(AppScreens.MainScreen.name)
                         }) {
-                            Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Almanac")
+                            Icon(Icons.Default.Home, contentDescription = "Home")
                         }
                         IconButton(onClick = {
                             navController.navigate(AppScreens.SplitScreen.name)
@@ -97,7 +99,8 @@ fun AlmanacScreen(
             Column(modifier = Modifier.padding(innerPadding)) {
                 Text(
                     text = "Welcome to the Almanac Screen",
-                    color = Color.White,
+                    fontFamily = FontFamily.SansSerif,
+                    color = Color.Black,
                     fontSize = 25.sp,
                     modifier = modifier.offset(x = 25.dp,y=20.dp)
 

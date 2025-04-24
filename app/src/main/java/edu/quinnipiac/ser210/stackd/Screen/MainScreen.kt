@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -105,7 +106,8 @@ fun MainScreen(
       Column(modifier = Modifier.padding(innerPadding)) {
         Text(
           text = "Welcome to the Main Screen!",
-          color = Color.White,
+          color = Color.Black,
+          fontFamily = FontFamily.SansSerif,
           fontSize = 30.sp,
           modifier = modifier.offset(x = 20.dp,y=20.dp)
 
