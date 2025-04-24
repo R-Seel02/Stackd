@@ -31,12 +31,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.quinnipiac.ser210.stackd.Navigation.AppScreens
 import edu.quinnipiac.ser210.stackd.R
+import edu.quinnipiac.ser210.stackd.api.Exercise
 import edu.quinnipiac.ser210.stackd.api.ExerciseDropdownMenu
+import edu.quinnipiac.ser210.stackd.api.groupExercisesByBodyPart
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,10 +104,15 @@ fun AlmanacScreen(
             containerColor = Color.Transparent,
             modifier = modifier
         ) { innerPadding ->
+            val response = stackdViewModel.exerciseResult.value
+            val exercises = response?.body() ?: emptyList()
+
+            LaunchedEffect(Unit) {
+                stackdViewModel.getData()
+            }
+
             Column(modifier = Modifier.padding(innerPadding)) {
-                LaunchedEffect(Unit) {
-                    stackdViewModel.getData()
-                }
+
                 Text(
                     text = "Welcome to the Almanac Screen",
                     fontFamily = FontFamily.SansSerif,
@@ -116,6 +124,7 @@ fun AlmanacScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
 
+
                 val exercisesResponse = stackdViewModel.exerciseResult.value
                 val exercises = exercisesResponse?.body() ?: emptyList()
                 if (exercises.isNotEmpty()) {
@@ -123,6 +132,7 @@ fun AlmanacScreen(
                 } else {
                     CircularProgressIndicator(modifier = Modifier.padding(24.dp))
                 }
+
 
             }
         }

@@ -25,7 +25,7 @@ interface ApiService {
 
     companion object {
 
-        var BASE_URL = "https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb/playground/apiendpoint_8ae18d70-75aa-4164-b4ef-0afde01402c2"
+        var BASE_URL = "https://exercisedb.p.rapidapi.com/"
 
 
         fun create() : ApiService{

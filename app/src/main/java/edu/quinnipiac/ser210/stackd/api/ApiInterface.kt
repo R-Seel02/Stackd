@@ -11,7 +11,7 @@ interface ApiInterface {
 
     companion object {
 
-        var BASE_URL = "https://simplifiedcoding.net/demos/"
+        var BASE_URL = "https://exercisedb.p.rapidapi.com/"
 
 
         fun create() : ApiInterface {
