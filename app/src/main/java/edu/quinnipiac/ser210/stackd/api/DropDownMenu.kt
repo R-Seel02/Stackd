@@ -48,7 +48,7 @@ fun ExerciseDropdownMenu(exercises: List<Exercise>) {
     selectedItem?.let {
         Column(modifier = Modifier.padding(top = 8.dp)) {
             Text("Targets: ${it.target}", color = Color.Black)
-            Text("Type: ${it.type}", color = Color.Black)
+            Text("Type: ${it.equipment}", color = Color.Black)
             // Add more if needed
         }
     }

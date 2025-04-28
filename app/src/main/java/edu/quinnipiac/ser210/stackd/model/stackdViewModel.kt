@@ -13,12 +13,11 @@ import retrofit2.Response
 class stackdViewModel : ViewModel() {
 
 
-
-        private val stackdApi = ApiService.create()
-          val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
+    private val stackdApi = ApiService.create()
+    val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
     val exerciseResult: LiveData<Response<ArrayList<Exercise>>> get() = _exerciseResult
-
-
+    private val _filteredExercises = MutableLiveData<List<Exercise>>()
+    val filteredExercises: LiveData<List<Exercise>> get() = _filteredExercises
 
 
     fun getData() {
@@ -32,15 +31,37 @@ class stackdViewModel : ViewModel() {
                     Log.d("DEBUG", "API success: ${response.body()}")
                     _exerciseResult.value = response
                 } else {
-                    Log.e("DEBUG", "API error code: ${response.code()}, error body: ${response.errorBody()?.string()}")
+                    Log.e(
+                        "DEBUG",
+                        "API error code: ${response.code()}, error body: ${
+                            response.errorBody()?.string()
+                        }"
+                    )
                 }
-            }
-            catch (e: Exception){
+            } catch (e: Exception) {
                 Log.e("DEBUG", "Exception during API call: ${e.message}")
             }
-            }
+        }
 
+    }
+
+    fun getExercisesForPart(part: String) {
+        viewModelScope.launch {
+            try {
+                val response = stackdApi.getExercisesByBodyPart(part.lowercase())
+                if (response.isSuccessful) {
+                    _filteredExercises.value = response.body() ?: emptyList()
+                } else {
+                    Log.e(
+                        "FILTER_FAIL",
+                        "Code: ${response.code()}, body: ${response.errorBody()?.string()}"
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e("FILTER_EXCEPTION", e.toString())
+            }
         }
     }
 
 
+}
