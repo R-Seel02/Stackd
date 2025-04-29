@@ -82,14 +82,27 @@ fun MainScreen(
           },
           actions = {
             Row {
-              Image(
-                painter = painterResource(id = R.drawable.stackdlogo),
-                contentDescription = "logo",
-                modifier = Modifier
-                  .size(100.dp)
-                  .align(Alignment.CenterVertically)
-                  .offset(x=-190.dp, y = 0.dp)
-              )
+
+              if(themeViewModel.isDarkTheme){
+                Image(
+                  painter = painterResource(id = R.drawable.stackd_darkmode3),
+                  contentDescription = "logo",
+                  modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.CenterVertically)
+                    .offset(x=-190.dp, y = 0.dp)
+                )
+              }else{
+                Image(
+                  painter = painterResource(id = R.drawable.stackdlogo),
+                  contentDescription = "logo",
+                  modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.CenterVertically)
+                    .offset(x=-190.dp, y = 0.dp)
+                )
+              }
+
             }
             IconButton(onClick = {
               navController.navigate(AppScreens.SettingScreen.name)
