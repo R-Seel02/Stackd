@@ -68,5 +68,18 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
+    testImplementation("junit:junit:4.13.2")
+
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+
+
+    testImplementation("org.mockito:mockito-core:4.2.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
 
 }
