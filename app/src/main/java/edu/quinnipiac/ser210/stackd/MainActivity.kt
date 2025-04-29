@@ -1,28 +1,16 @@
 package edu.quinnipiac.ser210.stackd
 
-import android.annotation.SuppressLint
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.material3.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import edu.quinnipiac.ser210.stackd.Navigation.AppNavigation
-import edu.quinnipiac.ser210.stackd.Navigation.AppScreens
-import edu.quinnipiac.ser210.stackd.Screen.MainScreen
-import edu.quinnipiac.ser210.stackd.api.Exercise
+import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 import edu.quinnipiac.ser210.stackd.ui.theme.StackdTheme
-
-
 
 
 class MainActivity : ComponentActivity() {
@@ -32,15 +20,22 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
-            StackdTheme {
+            val themeViewModel: ThemeViewModel = viewModel()
+
+            val darkColors = darkColorScheme()
+            val lightColors = lightColorScheme()
+
+
+
+
                 val navController = rememberNavController()
 
-
-                    AppNavigation(navController = navController)
-
+                StackdTheme(darkTheme = themeViewModel.isDarkTheme) {
+                    AppNavigation(navController = navController, themeViewModel = themeViewModel)
+                }
             }
         }
     }
-}
+
 
 
