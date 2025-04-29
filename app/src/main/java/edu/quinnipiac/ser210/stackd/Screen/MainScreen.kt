@@ -31,7 +31,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.quinnipiac.ser210.stackd.Navigation.AppScreens
 import edu.quinnipiac.ser210.stackd.R
+import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
+
 
 
 
@@ -42,6 +44,7 @@ fun MainScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     stackdViewModel: stackdViewModel,
+    themeViewModel: ThemeViewModel
 
 ) {
 
@@ -50,12 +53,22 @@ fun MainScreen(
       .fillMaxSize()
   ) {
 
-    Image(
-      painter = painterResource(id = R.drawable.backgroundmain),
-      contentDescription = null,
-      contentScale = ContentScale.Crop,
-      modifier = Modifier.fillMaxSize()
-    )
+    if (!themeViewModel.isDarkTheme){
+      Image(
+        painter = painterResource(id = R.drawable.backgroundmain),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+      )
+
+    }else {
+      Image(
+        painter = painterResource(id = R.drawable.greyscale_background),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+      )
+    }
 
 
     Scaffold(

@@ -59,8 +59,7 @@ import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.ImageLoader
 import androidx.compose.ui.platform.LocalContext
-
-
+import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +68,8 @@ import androidx.compose.ui.platform.LocalContext
 fun AlmanacScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    stackdViewModel: stackdViewModel
+    stackdViewModel: stackdViewModel,
+    themeViewModel: ThemeViewModel
 ) {
 
 
@@ -85,12 +85,27 @@ fun AlmanacScreen(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.backgroundmain),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
+
+
+            if (!themeViewModel.isDarkTheme){
+                Image(
+                    painter = painterResource(id = R.drawable.backgroundmain),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+            }else {
+                Image(
+                    painter = painterResource(id = R.drawable.greyscale_background),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+
+
 
             Scaffold(
                 topBar = {

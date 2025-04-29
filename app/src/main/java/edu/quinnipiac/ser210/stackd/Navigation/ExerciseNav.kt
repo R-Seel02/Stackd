@@ -27,6 +27,7 @@ fun AppNavigation(navController: NavHostController, themeViewModel: ThemeViewMod
                 navController = navController,
                 modifier = Modifier.padding(),
                 stackdViewModel = stackdViewModel,
+                themeViewModel = themeViewModel
 
 
             )
@@ -42,12 +43,16 @@ fun AppNavigation(navController: NavHostController, themeViewModel: ThemeViewMod
         composable(AppScreens.AlmanacScreen.name) {
             AlmanacScreen(navController = navController,
                 modifier = Modifier.padding(),
-                stackdViewModel = stackdViewModel)
+                stackdViewModel = stackdViewModel,
+                themeViewModel =themeViewModel)
         }
         composable(AppScreens.SplitScreen.name) {
             SplitScreen(navController = navController,
                 modifier = Modifier.padding(),
-                stackdViewModel = stackdViewModel)
+                stackdViewModel = stackdViewModel,
+                themeViewModel =themeViewModel
+
+            )
         }
     }
 }

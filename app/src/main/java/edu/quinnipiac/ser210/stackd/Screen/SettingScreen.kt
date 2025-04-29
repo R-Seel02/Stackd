@@ -1,6 +1,7 @@
 package edu.quinnipiac.ser210.stackd.Screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,12 +56,22 @@ fun SettingScreen(
             .fillMaxSize()
     ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.backgroundmain),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+                if (!themeViewModel.isDarkTheme){
+                    Image(
+                        painter = painterResource(id = R.drawable.backgroundmain),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                }else {
+                    Image(
+                        painter = painterResource(id = R.drawable.greyscale_background),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
 
 
         Scaffold(
