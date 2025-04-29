@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.navigation.testing)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
