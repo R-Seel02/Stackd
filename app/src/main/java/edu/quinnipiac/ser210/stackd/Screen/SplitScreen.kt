@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.quinnipiac.ser210.stackd.Navigation.AppScreens
 import edu.quinnipiac.ser210.stackd.R
+import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +40,8 @@ import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 fun SplitScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    stackdViewModel: stackdViewModel
+    stackdViewModel: stackdViewModel,
+    themeViewModel: ThemeViewModel
 ) {
 
     Box(
@@ -47,12 +49,22 @@ fun SplitScreen(
             .fillMaxSize()
     ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.backgroundmain),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+        if (!themeViewModel.isDarkTheme){
+            Image(
+                painter = painterResource(id = R.drawable.backgroundmain),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+        }else {
+            Image(
+                painter = painterResource(id = R.drawable.greyscale_background),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
 
         Scaffold(

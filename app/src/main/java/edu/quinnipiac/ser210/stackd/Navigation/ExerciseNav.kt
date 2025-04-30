@@ -11,11 +11,12 @@ import edu.quinnipiac.ser210.stackd.Screen.AlmanacScreen
 import edu.quinnipiac.ser210.stackd.Screen.MainScreen
 import edu.quinnipiac.ser210.stackd.Screen.SettingScreen
 import edu.quinnipiac.ser210.stackd.Screen.SplitScreen
+import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(navController: NavHostController, themeViewModel: ThemeViewModel,) {
     val stackdViewModel: stackdViewModel = viewModel()
     NavHost(
         navController = navController,
@@ -25,25 +26,33 @@ fun AppNavigation(navController: NavHostController) {
             MainScreen(
                 navController = navController,
                 modifier = Modifier.padding(),
-                stackdViewModel = stackdViewModel
+                stackdViewModel = stackdViewModel,
+                themeViewModel = themeViewModel
+
+
             )
         }
         composable(AppScreens.SettingScreen.name) {
             SettingScreen(
                 navController = navController,
                 modifier = Modifier.padding(),
-                stackdViewModel = stackdViewModel
+                stackdViewModel = stackdViewModel,
+                themeViewModel =themeViewModel
             )
         }
         composable(AppScreens.AlmanacScreen.name) {
             AlmanacScreen(navController = navController,
                 modifier = Modifier.padding(),
-                stackdViewModel = stackdViewModel)
+                stackdViewModel = stackdViewModel,
+                themeViewModel =themeViewModel)
         }
         composable(AppScreens.SplitScreen.name) {
             SplitScreen(navController = navController,
                 modifier = Modifier.padding(),
-                stackdViewModel = stackdViewModel)
+                stackdViewModel = stackdViewModel,
+                themeViewModel =themeViewModel
+
+            )
         }
     }
 }

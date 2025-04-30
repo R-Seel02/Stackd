@@ -25,9 +25,12 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -56,8 +59,7 @@ import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.ImageLoader
 import androidx.compose.ui.platform.LocalContext
-
-
+import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,179 +68,204 @@ import androidx.compose.ui.platform.LocalContext
 fun AlmanacScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    stackdViewModel: stackdViewModel
+    stackdViewModel: stackdViewModel,
+    themeViewModel: ThemeViewModel
 ) {
+
+
+    val darkColors = darkColorScheme()
+    val lightColors = lightColorScheme()
+
     val filtered = stackdViewModel.filteredExercises.observeAsState(emptyList())
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selectedExercise by remember { mutableStateOf<Exercise?>(null) }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.backgroundmain),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+
+
+        Box(
             modifier = Modifier.fillMaxSize()
-        )
+        ) {
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "",
-                            fontStyle = FontStyle.Normal
-                        )
-                    },
-                    actions = {
-                        Row {
-                            Image(
-                                painter = painterResource(id = R.drawable.stackdlogo),
-                                contentDescription = "logo",
-                                modifier = Modifier
-                                    .size(100.dp)
-                                    .align(Alignment.CenterVertically)
-                                    .offset(x = -190.dp)
-                            )
-                        }
-                        IconButton(onClick = { navController.navigate(AppScreens.SettingScreen.name) }) {
-                            Icon(Icons.Default.Settings, contentDescription = "Settings")
-                        }
-                        IconButton(onClick = { navController.navigate(AppScreens.MainScreen.name) }) {
-                            Icon(Icons.Default.Home, contentDescription = "Home")
-                        }
-                        IconButton(onClick = { navController.navigate(AppScreens.SplitScreen.name) }) {
-                            Icon(Icons.Filled.DateRange, contentDescription = "Split Plan")
-                        }
-                    }
-                )
-            },
-            containerColor = Color.Transparent,
-            modifier = modifier
-        ) { innerPadding ->
 
-            Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
-                Text(
-                    text = "Welcome to the Almanac Screen",
-                    fontFamily = FontFamily.SansSerif,
-                    color = Color.Black,
-                    fontSize = 25.sp,
-                    modifier = Modifier.offset(x = 10.dp, y = 10.dp)
+            if (!themeViewModel.isDarkTheme){
+                Image(
+                    painter = painterResource(id = R.drawable.backgroundmain),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = {
-                        stackdViewModel.getExercisesForPart("back")
-                        dropdownExpanded = true
-                    }) {
-                        Text("Back")
-                    }
-
-                    Button(onClick = {
-                        stackdViewModel.getExercisesForPart("chest")
-                        dropdownExpanded = true
-                    }) {
-                        Text("Chest")
-                    }
-
-
-                    Button(onClick = {
-                        stackdViewModel.getExercisesForPart("upper legs")
-                        dropdownExpanded = true
-                    }) {
-                        Text("Legs")
-                    }
+            }else {
+                Image(
+                    painter = painterResource(id = R.drawable.greyscale_background),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
 
 
 
-                }
-                Row(modifier = Modifier) {
-                    Button(onClick = {
-                        stackdViewModel.getExercisesForPart("lower legs")
-                        dropdownExpanded = true
-                        modifier
-                            .offset(x=0.dp,y=2000.dp)
-                    }) {
-                        Text("Lower Legs")
-                    }
 
-                    Button(onClick = {
-                        stackdViewModel.getExercisesForPart("shoulders")
-                        dropdownExpanded = true
-                        modifier
-                            .offset(x=0.dp,y=2000.dp)
-                    }) {
-                        Text("Shoulders")
-                    }
-
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-
-                Box {
-                    Button(onClick = { dropdownExpanded = true }) {
-                        Text(selectedExercise?.name ?: "Select Exercise")
-                    }
-
-                    DropdownMenu(
-                        expanded = dropdownExpanded,
-                        onDismissRequest = { dropdownExpanded = false }
-                    ) {
-                        filtered.value.forEach { exercise ->
-                            DropdownMenuItem(
-                                text = { Text(exercise.name) },
-                                onClick = {
-                                    selectedExercise = exercise
-                                    dropdownExpanded = false
-                                }
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = "",
+                                fontStyle = FontStyle.Normal
                             )
+                        },
+                        actions = {
+                            Row {
+                                Image(
+                                    painter = painterResource(id = R.drawable.stackdlogo),
+                                    contentDescription = "logo",
+                                    modifier = Modifier
+                                        .size(100.dp)
+                                        .align(Alignment.CenterVertically)
+                                        .offset(x = -190.dp)
+                                )
+                            }
+                            IconButton(onClick = { navController.navigate(AppScreens.SettingScreen.name) }) {
+                                Icon(Icons.Default.Settings, contentDescription = "Settings")
+                            }
+                            IconButton(onClick = { navController.navigate(AppScreens.MainScreen.name) }) {
+                                Icon(Icons.Default.Home, contentDescription = "Home")
+                            }
+                            IconButton(onClick = { navController.navigate(AppScreens.SplitScreen.name) }) {
+                                Icon(Icons.Filled.DateRange, contentDescription = "Split Plan")
+                            }
+                        }
+                    )
+                },
+                containerColor = Color.Transparent,
+                modifier = modifier
+            ) { innerPadding ->
+
+                Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
+                    Text(
+                        text = "Welcome to the Almanac Screen",
+                        fontFamily = FontFamily.SansSerif,
+                        color = Color.Black,
+                        fontSize = 25.sp,
+                        modifier = Modifier.offset(x = 10.dp, y = 10.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Button(onClick = {
+                            stackdViewModel.getExercisesForPart("back")
+                            dropdownExpanded = true
+                        }) {
+                            Text("Back")
+                        }
+
+                        Button(onClick = {
+                            stackdViewModel.getExercisesForPart("chest")
+                            dropdownExpanded = true
+                        }) {
+                            Text("Chest")
+                        }
+
+
+                        Button(onClick = {
+                            stackdViewModel.getExercisesForPart("upper legs")
+                            dropdownExpanded = true
+                        }) {
+                            Text("Legs")
+                        }
+
+
+                    }
+                    Row(modifier = Modifier) {
+                        Button(onClick = {
+                            stackdViewModel.getExercisesForPart("lower legs")
+                            dropdownExpanded = true
+                            modifier
+                                .offset(x = 0.dp, y = 2000.dp)
+                        }) {
+                            Text("Lower Legs")
+                        }
+
+                        Button(onClick = {
+                            stackdViewModel.getExercisesForPart("shoulders")
+                            dropdownExpanded = true
+                            modifier
+                                .offset(x = 0.dp, y = 2000.dp)
+                        }) {
+                            Text("Shoulders")
+                        }
+
+                    }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+
+                    Box {
+                        Button(onClick = { dropdownExpanded = true }) {
+                            Text(selectedExercise?.name ?: "Select Exercise")
+                        }
+
+                        DropdownMenu(
+                            expanded = dropdownExpanded,
+                            onDismissRequest = { dropdownExpanded = false }
+                        ) {
+                            filtered.value.forEach { exercise ->
+                                DropdownMenuItem(
+                                    text = { Text(exercise.name) },
+                                    onClick = {
+                                        selectedExercise = exercise
+                                        dropdownExpanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    val context = LocalContext.current
+                    val imageLoader = ImageLoader.Builder(context)
+                        .components {
+                            add(GifDecoder.Factory())
+                        }
+                        .build()
+
+                    selectedExercise?.let { exercise ->
+                        Column {
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text("Target: ${exercise.target ?: "Unknown"}", color = Color.Black)
+                            Text(
+                                "Equipment: ${exercise.equipment ?: "Unknown"}",
+                                color = Color.Black
+                            )
+
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+
+                            exercise.gifUrl?.let { gif ->
+                                AsyncImage(
+                                    model = gif,
+                                    contentDescription = "${exercise.name} animation",
+                                    imageLoader = imageLoader,
+                                    modifier = Modifier
+                                        .height(250.dp)
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+
+                            }
+
+
                         }
                     }
                 }
-                val context = LocalContext.current
-                val imageLoader = ImageLoader.Builder(context)
-                    .components {
-                        add(GifDecoder.Factory())
-                    }
-                    .build()
-
-                selectedExercise?.let { exercise ->
-                   Column {
-
-                       Spacer(modifier = Modifier.height(16.dp))
-                       Text("Target: ${exercise.target ?: "Unknown"}", color = Color.Black)
-                       Text("Equipment: ${exercise.equipment ?: "Unknown"}", color = Color.Black)
-
-
-                       Spacer(modifier = Modifier.height(8.dp))
-
-
-                       exercise.gifUrl?.let { gif ->
-                           AsyncImage(
-                               model = gif,
-                               contentDescription = "${exercise.name} animation",
-                               imageLoader = imageLoader,
-                               modifier = Modifier
-                                   .height(250.dp)
-                                   .fillMaxWidth()
-                                   .padding(vertical = 8.dp),
-                               contentScale = ContentScale.Fit
-                           )
-
-                   }
-
-
             }
         }
     }
-        }
-    }
-}
 
 
 
