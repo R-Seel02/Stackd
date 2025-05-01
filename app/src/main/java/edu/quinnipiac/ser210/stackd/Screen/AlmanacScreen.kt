@@ -1,5 +1,6 @@
 package edu.quinnipiac.ser210.stackd.Screen
 
+import android.app.Application
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,12 +13,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
+
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -59,6 +66,8 @@ import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.ImageLoader
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 
 
@@ -79,10 +88,12 @@ fun AlmanacScreen(
     val filtered = stackdViewModel.filteredExercises.observeAsState(emptyList())
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selectedExercise by remember { mutableStateOf<Exercise?>(null) }
+    var isStarred by remember { mutableStateOf(false) }
 
 
 
-        Box(
+
+    Box(
             modifier = Modifier.fillMaxSize()
         ) {
 
@@ -188,6 +199,24 @@ fun AlmanacScreen(
                         }) {
                             Text("Legs")
                         }
+                        selectedExercise?.let { exercise ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(top = 8.dp)
+                            ) {
+                                Text(exercise.name, fontWeight = FontWeight.Bold)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                IconButton(onClick = {
+//                                    stackdViewModel.toggleFavorite(exercise)
+                                }) {
+                                    Icon(
+                                        imageVector = if (exercise.isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                        contentDescription = if (exercise.isFavorited) "Unfavorite" else "Favorite"
+                                    )
+                                }
+                            }
+                        }
+
 
 
                     }
@@ -268,6 +297,16 @@ fun AlmanacScreen(
                                     contentScale = ContentScale.Fit
                                 )
 
+                            }
+                            IconButton(
+                                onClick = { isStarred = !isStarred },
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            ) {
+                                Icon(
+                                    imageVector = if (isStarred) Icons.Default.Star else Icons.Outlined.Star,
+                                    contentDescription = if (isStarred) "Starred" else "Not Starred",
+                                    tint = if (isStarred) Color(0xFFFFD700) else Color.Gray
+                                )
                             }
 
 

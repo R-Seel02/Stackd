@@ -12,12 +12,14 @@ import retrofit2.http.Path
 interface ApiService {
 
     @GET("exercises")
-
     suspend fun getExercise(): Response<ArrayList<Exercise>>
     @GET("exercises/bodyPart/{bodyPart}")
     suspend fun getExercisesByBodyPart(
         @Path("bodyPart") bodyPart: String
     ): Response<ArrayList<Exercise>>
+
+
+
 
 
     companion object {

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+//    id("kotlin-kapt")
 }
 
 android {
@@ -82,6 +83,8 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
     testImplementation("androidx.arch.core:core-testing:2.2.0")
+//    implementation("androidx.room:room-runtime:2.5.2")
+//    kapt("androidx.room:room-compiler:2.5.2")
 
 
 }

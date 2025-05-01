@@ -1,5 +1,6 @@
 package edu.quinnipiac.ser210.stackd.model
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.foundation.content.MediaType.Companion.Text
 import androidx.compose.foundation.layout.Column
@@ -18,25 +19,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import edu.quinnipiac.ser210.stackd.api.AppDatabase
 import edu.quinnipiac.ser210.stackd.api.Exercise
+import edu.quinnipiac.ser210.stackd.api.ExerciseDao
 import edu.quinnipiac.ser210.stackd.network.ApiService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class stackdViewModel : ViewModel() {
+class stackdViewModel (application: Application) : AndroidViewModel(application) {
 
+
+//    val dao = AppDatabase.getDatabase(getApplication()).exerciseDao()
 
     private val stackdApi = ApiService.create()
     val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
     val exerciseResult: LiveData<Response<ArrayList<Exercise>>> get() = _exerciseResult
     private val _filteredExercises = MutableLiveData<List<Exercise>>()
     val filteredExercises: LiveData<List<Exercise>> get() = _filteredExercises
-    private val dao = AppDatabase.DATABASE_NAME(getApplication).exerciseDao()
 
 
     fun getData() {
@@ -49,7 +54,6 @@ class stackdViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     Log.d("DEBUG", "API success: ${response.body()}")
                     _exerciseResult.value = response
-                    dao.insertAll(response.body() ?: emptyList())
                 } else {
                     Log.e(
                         "DEBUG",
@@ -64,6 +68,12 @@ class stackdViewModel : ViewModel() {
         }
 
     }
+//    fun toggleFavorite(exercise: Exercise) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val updated = exercise.copy(isFavorited = !exercise.isFavorited)
+//            dao.insert(updated)
+//        }
+//    }
 
     fun getExercisesForPart(part: String) {
         viewModelScope.launch {

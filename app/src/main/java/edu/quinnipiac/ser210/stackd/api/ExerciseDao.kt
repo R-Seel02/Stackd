@@ -19,4 +19,7 @@ interface ExerciseDao {
 
     @Query("UPDATE exercises SET isFavorited = :isFav WHERE id = :id")
     suspend fun toggleFavorite(id: Int, isFav: Boolean)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(exercise: Exercise)
 }
