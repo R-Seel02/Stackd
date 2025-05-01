@@ -76,3 +76,16 @@ fun GroupedExerciseDropdowns(exercises: List<Exercise>) {
         }
     }
 }
+
+@Composable
+fun randomExercies(exercises: List<Exercise>){
+
+    val endpoints = listOf(exercises)
+    val randomPart = endpoints.random()
+
+}
+
+
+
+
+

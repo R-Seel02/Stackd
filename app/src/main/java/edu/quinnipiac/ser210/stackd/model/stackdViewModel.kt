@@ -82,5 +82,20 @@ class stackdViewModel : ViewModel() {
             }
         }
     }
-}
 
+    fun getRandomExercises() {
+        viewModelScope.launch {
+            try {
+                val response = stackdApi.getExercise()
+                if (response.isSuccessful) {
+                    val shuffledList = response.body()?.shuffled() ?: emptyList()
+                    _exerciseResult.value = Response.success(ArrayList(shuffledList))
+                } else {
+                    Log.e("API_ERROR", "Code: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("API_EXCEPTION", e.toString())
+            }
+        }
+    }
+}
