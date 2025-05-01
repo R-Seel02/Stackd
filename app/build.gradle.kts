@@ -42,6 +42,9 @@ android {
 dependencies {
     implementation ("io.coil-kt:coil-compose:2.2.2")
     implementation ("io.coil-kt:coil-gif:2.2.2")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.1")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.5.1")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

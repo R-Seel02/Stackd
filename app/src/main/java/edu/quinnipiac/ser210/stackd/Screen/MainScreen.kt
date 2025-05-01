@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
@@ -46,6 +48,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import java.time.format.DateTimeFormatter
 
@@ -104,7 +107,7 @@ fun MainScreen(
                   modifier = Modifier
                     .size(100.dp)
                     .align(Alignment.CenterVertically)
-                    .offset(x=-190.dp, y = 0.dp)
+                    .offset(x = -190.dp, y = 0.dp)
                 )
               }else{
                 Image(
@@ -113,7 +116,7 @@ fun MainScreen(
                   modifier = Modifier
                     .size(100.dp)
                     .align(Alignment.CenterVertically)
-                    .offset(x=-190.dp, y = 0.dp)
+                    .offset(x = -190.dp, y = 0.dp)
                 )
               }
 
@@ -139,11 +142,14 @@ fun MainScreen(
       containerColor = Color.Transparent,
       modifier = modifier
     ) { innerPadding ->
-      Column(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+      Column(modifier = Modifier
+        .padding(innerPadding)
+        .fillMaxSize()) {
 
         Text(
           text = "Welcome to Stackd <Name>",
           color = Color.Black,
+          fontStyle = FontStyle.Italic,
           fontFamily = FontFamily.SansSerif,
           fontSize = 28.sp,
           modifier = Modifier
@@ -217,9 +223,59 @@ fun MainScreen(
               thickness = 0.7.dp,
               color = Color.LightGray
             )
+
+
+
+
+
+
+
+
+
+
           }
         }
+        Row(verticalAlignment = Alignment.CenterVertically,
+          modifier = Modifier
+            .fillMaxWidth()
+            .testTag("recommendedSplitsRow")
+            .padding(horizontal = 24.dp, vertical = 12.dp))
+
+
+
+        {
+          Column {
+            Text(
+              text = "Recommended Splits",
+              fontSize = 22.sp,
+              fontStyle = FontStyle.Italic,
+              fontFamily = FontFamily.SansSerif,
+              modifier = Modifier
+                .padding(vertical = 12.dp)
+                .testTag("splitsText")
+            )
+
+
+          }
+          Icon(Icons.Default.ArrowDropDown, contentDescription = null, modifier = Modifier.testTag("splitsArrow"))
+
+
+          }
+
+        Column(){}//put split info here
+
+
       }
+
+
+
+
+
+
+
+
+
+
 
 
         }
