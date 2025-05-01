@@ -262,7 +262,7 @@ fun MainScreen(
 
           }
 
-        Column(){}//put split info here
+        Image(painter = painterResource(id = R.drawable.split1), contentDescription = null, modifier = Modifier.align(Alignment.CenterHorizontally))
 
 
       }
