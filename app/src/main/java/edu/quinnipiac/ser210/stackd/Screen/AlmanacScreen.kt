@@ -191,6 +191,11 @@ fun AlmanacScreen(
                         }) {
                             Text("Chest")
                         }
+                        Button(onClick = {
+                            null
+                        }) {
+                            Text("Favorites")
+                        }
 
 
                         Button(onClick = {
