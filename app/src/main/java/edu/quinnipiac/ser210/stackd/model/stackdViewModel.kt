@@ -22,6 +22,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import edu.quinnipiac.ser210.stackd.api.AppDatabase
 import edu.quinnipiac.ser210.stackd.api.Exercise
 import edu.quinnipiac.ser210.stackd.network.ApiService
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ class stackdViewModel : ViewModel() {
     val exerciseResult: LiveData<Response<ArrayList<Exercise>>> get() = _exerciseResult
     private val _filteredExercises = MutableLiveData<List<Exercise>>()
     val filteredExercises: LiveData<List<Exercise>> get() = _filteredExercises
+    private val dao = AppDatabase.DATABASE_NAME(getApplication).exerciseDao()
 
 
     fun getData() {
@@ -47,6 +49,7 @@ class stackdViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     Log.d("DEBUG", "API success: ${response.body()}")
                     _exerciseResult.value = response
+                    dao.insertAll(response.body() ?: emptyList())
                 } else {
                     Log.e(
                         "DEBUG",
