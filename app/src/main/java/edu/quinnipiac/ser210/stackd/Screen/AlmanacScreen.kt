@@ -89,6 +89,7 @@ fun AlmanacScreen(
     var dropdownExpanded by remember { mutableStateOf(false) }
     var selectedExercise by remember { mutableStateOf<Exercise?>(null) }
     var isStarred by remember { mutableStateOf(false) }
+    val favoriteExercises = stackdViewModel.getFavoritedExercises().observeAsState(emptyList())
 
 
 
@@ -304,13 +305,16 @@ fun AlmanacScreen(
 
                             }
                             IconButton(
-                                onClick = { isStarred = !isStarred },
+                                onClick = {    selectedExercise?.let {
+                                    stackdViewModel.toggleFavorite(it)
+                                    selectedExercise = it.copy(isFavorited = !it.isFavorited)
+                                } },
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             ) {
                                 Icon(
-                                    imageVector = if (isStarred) Icons.Default.Star else Icons.Outlined.Star,
-                                    contentDescription = if (isStarred) "Starred" else "Not Starred",
-                                    tint = if (isStarred) Color(0xFFFFD700) else Color.Gray
+                                    imageVector = if (selectedExercise?.isFavorited == true) Icons.Default.Star else Icons.Outlined.Star,
+                                    contentDescription = if (selectedExercise?.isFavorited == true) "Starred" else "Not Starred",
+                                    tint = if (selectedExercise?.isFavorited == true) Color(0xFFFFD700) else Color.Gray
                                 )
                             }
 

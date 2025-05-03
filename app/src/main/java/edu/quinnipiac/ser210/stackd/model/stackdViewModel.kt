@@ -23,6 +23,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import edu.quinnipiac.ser210.stackd.api.AppDatabase
 import edu.quinnipiac.ser210.stackd.api.Exercise
@@ -35,7 +36,7 @@ import retrofit2.Response
 class stackdViewModel (application: Application) : AndroidViewModel(application) {
 
 
-//    val dao = AppDatabase.getDatabase(getApplication()).exerciseDao()
+    val dao = AppDatabase.getDatabase(getApplication()).exerciseDao()
 
     private val stackdApi = ApiService.create()
     val _exerciseResult = MutableLiveData<Response<ArrayList<Exercise>>>()
@@ -68,12 +69,15 @@ class stackdViewModel (application: Application) : AndroidViewModel(application)
         }
 
     }
-//    fun toggleFavorite(exercise: Exercise) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val updated = exercise.copy(isFavorited = !exercise.isFavorited)
-//            dao.insert(updated)
-//        }
-//    }
+    fun toggleFavorite(exercise: Exercise) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val updated = exercise.copy(isFavorited = !exercise.isFavorited)
+            dao.insert(updated)
+        }
+    }
+    fun getFavoritedExercises(): LiveData<List<Exercise>> {
+        return dao.getFavorites().asLiveData()
+    }
 
     fun getExercisesForPart(part: String) {
         viewModelScope.launch {

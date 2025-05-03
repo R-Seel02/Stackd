@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-//    id("kotlin-kapt")
+//    alias(libs.plugins.kotlin.kapt)
+//    id("com.google.devtools.ksp") version "2.0.0-1.0.18"
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -86,8 +88,14 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
     testImplementation("androidx.arch.core:core-testing:2.2.0")
-//    implementation("androidx.room:room-runtime:2.5.2")
-//    kapt("androidx.room:room-compiler:2.5.2")
 
+
+
+
+    implementation("androidx.room:room-runtime:2.7.0")
+    implementation("androidx.room:room-ktx:2.7.0")
+//    ksp("androidx.room:room-compiler:2.8.0")
+    ksp(libs.androidx.room.compiler.ksp)
+    implementation(libs.androidx.room.runtime.android)
 
 }

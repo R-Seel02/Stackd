@@ -2,12 +2,13 @@ package edu.quinnipiac.ser210.stackd.api
 import androidx.room.Entity
 
 import androidx.room.PrimaryKey
+import kotlinx.serialization.descriptors.PrimitiveKind
 
 
 @Entity(tableName = "exercises")
 
 data class Exercise(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val id: PrimitiveKind.INT,
                      val name: String,
                      val exercises: String,
                      val targetList: String,
