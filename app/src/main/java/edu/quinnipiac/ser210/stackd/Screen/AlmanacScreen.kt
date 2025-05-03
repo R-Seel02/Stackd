@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
@@ -90,6 +91,7 @@ fun AlmanacScreen(
     var selectedExercise by remember { mutableStateOf<Exercise?>(null) }
     var isStarred by remember { mutableStateOf(false) }
     val favoriteExercises = stackdViewModel.getFavoritedExercises().observeAsState(emptyList())
+    val scrollState = rememberScrollState()
 
 
 
@@ -137,7 +139,7 @@ fun AlmanacScreen(
                                         modifier = Modifier
                                             .size(100.dp)
                                             .align(Alignment.CenterVertically)
-                                            .offset(x=-190.dp, y = 0.dp)
+                                            .offset(x = -190.dp, y = 0.dp)
                                     )
                                 }else{
                                     Image(
@@ -146,7 +148,7 @@ fun AlmanacScreen(
                                         modifier = Modifier
                                             .size(100.dp)
                                             .align(Alignment.CenterVertically)
-                                            .offset(x=-190.dp, y = 0.dp)
+                                            .offset(x = -190.dp, y = 0.dp)
                                     )
                                 }
                             }
@@ -166,7 +168,9 @@ fun AlmanacScreen(
                 modifier = modifier
             ) { innerPadding ->
 
-                Column(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
+                Column(modifier = Modifier
+                    .padding(innerPadding)
+                    .padding(16.dp)) {
                     Text(
                         text = "Welcome to the Almanac Screen",
                         fontFamily = FontFamily.SansSerif,
@@ -192,11 +196,11 @@ fun AlmanacScreen(
                         }) {
                             Text("Chest")
                         }
-                        Button(onClick = {
-                            null
-                        }) {
-                            Text("Favorites")
-                        }
+//                        Button(onClick = {
+//                            null
+//                        }) {
+//                            Text("Favorites")
+//                        }
 
 
                         Button(onClick = {
@@ -324,7 +328,7 @@ fun AlmanacScreen(
                 }
             }
         }
-    }
+}
 
 
 

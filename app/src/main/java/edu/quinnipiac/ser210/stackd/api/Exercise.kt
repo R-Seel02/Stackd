@@ -8,7 +8,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 @Entity(tableName = "exercises")
 
 data class Exercise(
-    @PrimaryKey val id: PrimitiveKind.INT,
+    @PrimaryKey val id: Int,
                      val name: String,
                      val exercises: String,
                      val targetList: String,

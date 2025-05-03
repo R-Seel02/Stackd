@@ -69,11 +69,12 @@ class stackdViewModel (application: Application) : AndroidViewModel(application)
         }
 
     }
-    fun toggleFavorite(exercise: Exercise) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val updated = exercise.copy(isFavorited = !exercise.isFavorited)
-            dao.insert(updated)
-        }
+    fun toggleFavorite(ex: Exercise) = viewModelScope.launch(Dispatchers.IO) {
+        val updated = ex.copy(isFavorited = !ex.isFavorited)
+        dao.upsert(updated)
+        _filteredExercises.postValue(
+            _filteredExercises.value?.map { if (it.id == ex.id) updated else it }
+        )
     }
     fun getFavoritedExercises(): LiveData<List<Exercise>> {
         return dao.getFavorites().asLiveData()
