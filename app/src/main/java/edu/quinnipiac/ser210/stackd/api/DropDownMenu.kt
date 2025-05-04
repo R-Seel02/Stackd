@@ -22,22 +22,19 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ExerciseDropdownMenu(exercises: List<Exercise>) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedItem by remember { mutableStateOf<Exercise?>(null) }
+    var selected by remember { mutableStateOf<Exercise?>(null) }
 
     Box {
         Button(onClick = { expanded = true }) {
-            Text(text = selectedItem?.name ?: "Select Exercise")
+            Text(selected?.name ?: "Select Exercise")
         }
 
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             exercises.forEach { exercise ->
                 DropdownMenuItem(
                     text = { Text(exercise.name) },
                     onClick = {
-                        selectedItem = exercise
+                        selected = exercise
                         expanded = false
                     }
                 )
@@ -45,47 +42,63 @@ fun ExerciseDropdownMenu(exercises: List<Exercise>) {
         }
     }
 
-    selectedItem?.let {
-        Column(modifier = Modifier.padding(top = 8.dp)) {
-            Text("Targets: ${it.target}", color = Color.Black)
-            Text("Type: ${it.equipment}", color = Color.Black)
-            // Add more if needed
+    selected?.let {
+        Column(Modifier.padding(top = 8.dp)) {
+            Text("Targets: ${it.target ?: "—"}", color = Color.Black)
+            Text("Equipment: ${it.equipment ?: "—"}", color = Color.Black)
         }
     }
 }
 
-fun groupExercisesByBodyPart(exercises: List<Exercise>): Map<String, List<Exercise>> {
-    return exercises
-        .flatMap { exercise -> exercise.bodyPart.map { it to exercise } }
-        .groupBy({ it.first.toString() }, { it.second })
-}
+fun groupExercisesByBodyPart(
+    exercises: List<Exercise>
+): Map<String, List<Exercise>> =
+    exercises
+        .filter { !it.bodyPart.isNullOrBlank() }
+        .groupBy { it.bodyPart!!.lowercase() }
+
 
 @Composable
 fun GroupedExerciseDropdowns(exercises: List<Exercise>) {
     val grouped = groupExercisesByBodyPart(exercises)
 
     Column {
-        grouped.forEach { (bodyPart, exerciseList) ->
+        grouped.forEach { (bodyPart, list) ->
             Text(
-                text = bodyPart,
+                text = bodyPart.replaceFirstChar { it.uppercase() },
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 16.dp)
             )
-            ExerciseDropdownMenu(exerciseList)
+            ExerciseDropdownMenu(list)
         }
     }
 }
 
 @Composable
-fun randomExercies(exercises: List<Exercise>){
+fun FavExerciseDropdown(
+    label: String,
+    exercises: List<Exercise>,
+    onExercisePicked: (Exercise) -> Unit = {}
+) {
+    var expanded by remember { mutableStateOf(false) }
 
-    val endpoints = listOf(exercises)
-    val randomPart = endpoints.random()
+    Button(onClick = { expanded = true }) {
+        Text(label)
+    }
 
+    DropdownMenu(expanded, onDismissRequest = { expanded = false }) {
+        exercises.forEach { ex ->
+            DropdownMenuItem(
+                text = { Text(ex.name.replaceFirstChar(Char::uppercase)) },
+                onClick = {
+                    expanded = false
+                    onExercisePicked(ex)
+                }
+            )
+        }
+    }
 }
 
-
-
-
-
+fun pickRandomExercise(exercises: List<Exercise>): Exercise? =
+    exercises.randomOrNull()

@@ -69,6 +69,7 @@ import coil.ImageLoader
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.quinnipiac.ser210.stackd.api.FavExerciseDropdown
 import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 
 
@@ -196,11 +197,7 @@ fun AlmanacScreen(
                         }) {
                             Text("Chest")
                         }
-//                        Button(onClick = {
-//                            null
-//                        }) {
-//                            Text("Favorites")
-//                        }
+
 
 
                         Button(onClick = {
@@ -224,6 +221,7 @@ fun AlmanacScreen(
                                         contentDescription = if (exercise.isFavorited) "Unfavorite" else "Favorite"
                                     )
                                 }
+
                             }
                         }
 
@@ -248,6 +246,12 @@ fun AlmanacScreen(
                         }) {
                             Text("Shoulders")
                         }
+                        val favs by stackdViewModel.getFavoritedExercises().observeAsState(emptyList())
+                        FavExerciseDropdown(
+                            label = "Favorites",
+                            exercises = favs,
+                            onExercisePicked = { selectedExercise = it }
+                        )
 
                     }
 

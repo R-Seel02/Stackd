@@ -48,6 +48,16 @@ class stackdViewModel (application: Application) : AndroidViewModel(application)
     fun getData() {
         Log.d("DEBUG", "getData() called")
         viewModelScope.launch {
+            val response = stackdApi.getExercise()
+            if (response.isSuccessful) {
+                val sanitized = response.body().orEmpty().map { dto ->
+                    dto.copy(exercises = dto.exercises ?: emptyList())
+                }
+
+                dao.insertAll(sanitized)
+
+                _exerciseResult.value = Response.success(ArrayList(sanitized))
+            }
             try {
 
                 val response = stackdApi.getExercise()
@@ -70,10 +80,10 @@ class stackdViewModel (application: Application) : AndroidViewModel(application)
 
     }
     fun toggleFavorite(ex: Exercise) = viewModelScope.launch(Dispatchers.IO) {
-        val updated = ex.copy(isFavorited = !ex.isFavorited)
-        dao.upsert(updated)
+        val updated = ex.copy(isFavorited = !ex.isFavorited)  // safe now
+        dao.upsert(updated)                                   // or setFavorite(id, …)
         _filteredExercises.postValue(
-            _filteredExercises.value?.map { if (it.id == ex.id) updated else it }
+            _filteredExercises.value?.map { if (it.id == updated.id) updated else it }
         )
     }
     fun getFavoritedExercises(): LiveData<List<Exercise>> {

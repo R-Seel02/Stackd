@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import edu.quinnipiac.ser210.stackd.network.ApiService
 //mport android.content.Context
 //import androidx.room.Database
@@ -42,6 +43,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
     version = 3,
     exportSchema = true
 )
+@TypeConverters(Converters::class)     // ← REGISTER IT HERE
+
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun exerciseDao(): ExerciseDao

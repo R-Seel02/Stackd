@@ -39,7 +39,7 @@ import androidx.navigation.NavController
 import edu.quinnipiac.ser210.stackd.Navigation.AppScreens
 import edu.quinnipiac.ser210.stackd.R
 import edu.quinnipiac.ser210.stackd.api.Exercise
-import edu.quinnipiac.ser210.stackd.api.randomExercies
+//import edu.quinnipiac.ser210.stackd.api.randomExercies
 import edu.quinnipiac.ser210.stackd.model.ThemeViewModel
 import edu.quinnipiac.ser210.stackd.model.stackdViewModel
 import java.time.LocalDateTime
